@@ -4,7 +4,7 @@
 
 
 /* The devicetree node identifier for the "led0" alias. */
-#define LED_NODE DT_ALIAS(led0)
+#define LED_NODE DT_ALIAS(app_led)
 #define LED_DEFAULT_BLINK_TIME 3000
 
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED_NODE, gpios);
@@ -19,7 +19,7 @@ int main(void)
 
     if (gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE) < 0) return 0;
 
-#ifndef CONFIG_BLINK_SLEEP_TIME_MS
+#ifndef CONFIG_APP_HEARTBEAT_PERIOD_MS
         LOG_INF("Using defaut blink time: %u ms", LED_DEFAULT_BLINK_TIME);
 #endif
     while (1) {
@@ -27,8 +27,8 @@ int main(void)
 
         led_state = !led_state;
         LOG_INF("LED state: %s", led_state ? "ON" : "OFF");
-#if CONFIG_BLINK_SLEEP_TIME_MS
-        k_msleep(CONFIG_BLINK_SLEEP_TIME_MS);
+#if CONFIG_APP_HEARTBEAT_PERIOD_MS
+        k_msleep(CONFIG_APP_HEARTBEAT_PERIOD_MS);
 #else
         k_msleep(LED_DEFAULT_BLINK_TIME);
 #endif

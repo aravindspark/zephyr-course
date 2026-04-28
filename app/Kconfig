@@ -58,6 +58,11 @@ config CUSTOM_BLINK_PATTERN
 
 endmenu
 
+config APP_HEARTBEAT_PERIOD_MS
+    int "App led blink period" 
+    range 100 2000
+    default 500
+
 endif # LED_SUBSYSTEM
 
 source "Kconfig.zephyr"

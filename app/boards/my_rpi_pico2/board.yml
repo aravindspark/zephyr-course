@@ -1,0 +1,6 @@
+board:
+  name: my_rpi_pico2
+  full_name: My Custom Raspberry Pi Pico 2
+  vendor: myraspberrypi
+  socs:
+  - name: rp2350a

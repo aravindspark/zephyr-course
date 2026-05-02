@@ -1,0 +1,6 @@
+board:
+  name: pico2_scratch
+  full_name: Raspberry Pi Pico 2 from scratch
+  vendor: myraspberrypi
+  socs:
+  - name: rp2350a

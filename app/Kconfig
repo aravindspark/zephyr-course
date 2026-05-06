@@ -66,3 +66,4 @@ config APP_HEARTBEAT_PERIOD_MS
 endif # LED_SUBSYSTEM
 
 source "Kconfig.zephyr"
+rsource "drivers/my_pico2driver/Kconfig"

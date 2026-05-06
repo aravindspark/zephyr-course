@@ -2,4 +2,9 @@
     aliases {
         app-led = &led0;
     };
+
+    my_pico2driver0: my_pico2driver {
+        compatible = "my,pico2driver";
+        status = "okay";
+    };
 };

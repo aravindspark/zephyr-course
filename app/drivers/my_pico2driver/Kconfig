@@ -1,0 +1,3 @@
+config MY_PICO2DRIVER
+    bool "My RPI pico2 driver"
+    default y

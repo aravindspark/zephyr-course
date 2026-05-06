@@ -1,0 +1,3 @@
+description: RPI pico 2 LED driver
+comaptible: "my,pico2driver"
+include: base.yaml

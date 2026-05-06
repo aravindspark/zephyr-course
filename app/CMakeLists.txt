@@ -5,3 +5,4 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(my_zephyr_app)
 
 target_sources(app PRIVATE src/main.cpp)
+add_subdirectory(drivers/my_pico2driver)

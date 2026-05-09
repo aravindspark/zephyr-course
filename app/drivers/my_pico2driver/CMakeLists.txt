@@ -1,3 +1,5 @@
 if(CONFIG_MY_PICO2DRIVER)
     target_sources(app PRIVATE my_pico2driver.c)
+    list(APPEND SYSCALL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include/mypico2.h)
+    zephyr_include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 endif()

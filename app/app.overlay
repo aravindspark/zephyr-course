@@ -3,8 +3,18 @@
         app-led = &led0;
     };
 
+    chosen {
+        zephyr,console = &cdc_acm_uart0;
+    };
+
     my_pico2driver0: my_pico2driver {
         compatible = "my,pico2driver";
         status = "okay";
+    };
+};
+
+&zephyr_udc0 {
+    cdc_acm_uart0: cdc_acm_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
     };
 };

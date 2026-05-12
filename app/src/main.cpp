@@ -23,7 +23,7 @@ int main(void)
     const struct device* sensor_dev = DEVICE_DT_GET(DT_NODELABEL(my_pico2driver0));
     int ret = -1;
 
-    const struct device *usb_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));    
+    const struct device *usb_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
     uint32_t dtr = 0;
 
     /* Poll if the DTR flag was set */
@@ -31,8 +31,10 @@ int main(void)
         uart_line_ctrl_get(usb_dev, UART_LINE_CTRL_DTR, &dtr);
         /* Give CPU resources to low priority threads. */
         k_sleep(K_MSEC(100));
-    }   
+    }
 
+/* Use the Blink app only when shell is not enabled*/
+#ifndef CONFIG_MY_PICO2DRIVER_SHELL
 #ifndef CONFIG_APP_HEARTBEAT_PERIOD_MS
         LOG_INF("Using defaut blink time: %u ms", LED_DEFAULT_BLINK_TIME);
 #endif
@@ -55,5 +57,8 @@ int main(void)
 #endif
 
     }
+#else /* CONFIG_MY_PICO2DRIVER_SHELL */
+    LOG_INF("blink App is disabled - sensor driver availble in shell commands");
+#endif /* CONFIG_MY_PICO2DRIVER_SHELL */
     return 0;
 }

@@ -19,21 +19,34 @@ static int my_pico2driver_led_on(const struct device *dev,
                                     enum sensor_channel chan) {
     struct my_pico2driver_data *data = dev->data;
 
-    if (gpio_pin_toggle_dt(&led) < 0) return 0;
-    LOG_INF("LED state: %s", data->led_state ? "ON" : "OFF");
+
+    if(data == NULL)
+        return 0;
+
+    if (gpio_pin_set_dt(&led, 1 ) < 0) return 0;
+
+    LOG_INF("LED state: ON");
 
     return 0;
 }
 
 static int my_pico2driver_led_off(const struct device *dev,
                                     enum sensor_channel chan,
-                                    struct sensor_value *val) {
+                                    struct sensor_value *sval) {
 
     struct my_pico2driver_data *data = dev->data;
 
-    if (gpio_pin_toggle_dt(&led) < 0) return 0;
-    LOG_INF("LED state: %s", data->led_state ? "ON" : "OFF");
+    if(data == NULL)
+        return 0;
 
+    if (gpio_pin_set_dt(&led, 0 ) < 0) return 0;
+
+    LOG_INF("LED state: OFF");
+
+    if( sval != NULL) {
+        sval->val1 = 2026;
+        sval->val2 = 0.5;
+    }
     return 0;
 }
 
@@ -43,8 +56,11 @@ static int my_pico2driver_set_led_state(const struct device *dev,
 
     struct my_pico2driver_data *data = dev->data;
 
-    /* Just set the led state*/
-    data->led_state = led_state;
+    if(data != NULL)
+        /* Just set the led state*/
+        data->led_state = led_state;
+
+    LOG_INF("new sensor state is: %u", data->led_state);
 
     return 0;
 }

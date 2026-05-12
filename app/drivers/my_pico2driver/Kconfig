@@ -1,3 +1,8 @@
 config MY_PICO2DRIVER
     bool "My RPI pico2 driver"
     default y
+
+if SHELL
+config MY_PICO2DRIVER_SHELL
+    bool "My RPI pico2driver shell commands"
+endif #CONFIG_SHELL

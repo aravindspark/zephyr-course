@@ -45,7 +45,7 @@ static int my_pico2driver_led_off(const struct device *dev,
 
     if( sval != NULL) {
         sval->val1 = 2026;
-        sval->val2 = 0.5;
+        sval->val2 = 5;
     }
     return 0;
 }

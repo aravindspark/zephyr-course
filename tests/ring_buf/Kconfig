@@ -1,1 +1,5 @@
 source "Kconfig.zephyr"
+
+
+config RING_BUF_LOG
+	bool "Enable/Disable logging in ring_buf"

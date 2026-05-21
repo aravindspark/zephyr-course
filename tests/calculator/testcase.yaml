@@ -7,12 +7,16 @@ common:
 tests:
   # Default scenario: shuffled test order exposes hidden ordering dependencies
   example.unit.calculator:
-    platform_allow: native_sim
+    platform_allow:
+      - native_sim
+      - native_sim/native/64
     timeout: 60
 
   # Deterministic scenario: fixed order for live demos or failure bisection.
   example.unit.calculator.ordered:
-    platform_allow: native_sim
+    platform_allow:
+      - native_sim
+      - native_sim/native/64
     timeout: 60
     extra_args: CONFIG_ZTEST_SHUFFLE=n
 

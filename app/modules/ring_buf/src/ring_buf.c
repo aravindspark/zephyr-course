@@ -6,9 +6,12 @@
 
 #include <errno.h>
 #include <stddef.h>
+
+#ifdef CONFIG_RING_BUF_LOG
 #include <zephyr/logging/log.h>
 
 LOG_MODULE_REGISTER(ring_buf);
+#endif /* CONFIG_RING_BUF_LOG */
 
 static struct {
 	int data[RING_BUF_MAX_CAPACITY];
@@ -21,7 +24,9 @@ static struct {
 int rb_init(uint32_t capacity)
 {
 	if (capacity == 0U || capacity > RING_BUF_MAX_CAPACITY) {
+#ifdef CONFIG_RING_BUF_LOG
 		LOG_ERR("invalid capacity %u (max %u)", capacity, RING_BUF_MAX_CAPACITY);
+#endif /* CONFIG_RING_BUF_LOG */
 		return -EINVAL;
 	}
 
@@ -36,7 +41,9 @@ int rb_init(uint32_t capacity)
 int rb_push(int value)
 {
 	if (rb.count >= rb.capacity) {
+#ifdef CONFIG_RING_BUF_LOG
 		LOG_WRN("buffer full (capacity=%u)", rb.capacity);
+#endif /* CONFIG_RING_BUF_LOG */
 		return -ENOSPC;
 	}
 
@@ -50,11 +57,15 @@ int rb_push(int value)
 int rb_pop(int *value)
 {
 	if (value == NULL) {
+#ifdef CONFIG_RING_BUF_LOG
 		LOG_ERR("value pointer is NULL");
+#endif /* CONFIG_RING_BUF_LOG */
 		return -EINVAL;
 	}
 	if (rb.count == 0U) {
+#ifdef CONFIG_RING_BUF_LOG
 		LOG_WRN("buffer empty");
+#endif /* CONFIG_RING_BUF_LOG */
 		return -ENODATA;
 	}
 
@@ -68,11 +79,15 @@ int rb_pop(int *value)
 int rb_peek(int *value)
 {
 	if (value == NULL) {
+#ifdef CONFIG_RING_BUF_LOG
 		LOG_ERR("value pointer is NULL");
+#endif /* CONFIG_RING_BUF_LOG */
 		return -EINVAL;
 	}
 	if (rb.count == 0U) {
+#ifdef CONFIG_RING_BUF_LOG
 		LOG_WRN("buffer empty");
+#endif /* CONFIG_RING_BUF_LOG */
 		return -ENODATA;
 	}
 

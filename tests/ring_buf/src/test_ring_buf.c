@@ -26,6 +26,26 @@ static void before(void *f)
 	rb_init(4);
 }
 
+
+/*
+ * ============================================================================
+ * Test Suite: ring_buf_init_raw
+ *
+ * Initial state and re-initialization behaviour.
+ * ============================================================================
+ */
+ZTEST_SUITE(ring_buf_init_raw, NULL, NULL, NULL, NULL, NULL);
+ZTEST(ring_buf_init_raw, test_init_check_capacity)
+{
+	int max_cap = RING_BUF_MAX_CAPACITY + 1;
+	zassert_equal(rb_init(0), -EINVAL, "Buffer init for size 0 must return -EINVAL");
+	zassert_equal(rb_init(max_cap), -EINVAL, "Buffer init for max size must return -EINVAL");
+}
+
+ZTEST(ring_buf_init_raw, test_init_check)
+{
+	zassert_ok(rb_init(4), "Buffer init for size 4 must pass");
+}
 /*
  * ============================================================================
  * Test Suite: ring_buf_init
@@ -154,15 +174,36 @@ ZTEST(ring_buf_boundaries, test_peek_does_not_consume)
 	zassert_equal(rb_count(), 1, "The peek should not consume the value rb_count must return 1");
 }
 
+ZTEST(ring_buf_boundaries, test_peek_null_returns_einval)
+{
+	zassert_equal(rb_peek(NULL), -EINVAL , "A peek with NULL pointer argument must return -EINVAL");
+}
+
+ZTEST(ring_buf_boundaries, test_peek_fresh_buffer)
+{
+	int v;
+
+	zexpect_true(rb_is_empty(), "The buffer is expected to be empty");
+	zassert_equal(rb_peek(&v), -ENODATA, "A peek on a fresh buffer must return -ENODATA");
+}
+
 ZTEST(ring_buf_boundaries, test_pop_null_returns_einval)
 {
 	/* TODO(l8-task1): rb_pop(NULL) -> -EINVAL.
 	 * See TEST_SPEC.md "Suite ring_buf_boundaries" #2.
 	 */
 
-	// zexpect_true(rb_is_empty(), "The buffer is expected to be empty");
 	zassert_equal(rb_pop(NULL), -EINVAL , "A pop with NULL pointer argument must return -EINVAL");
 }
+
+ZTEST(ring_buf_boundaries, test_pop_fresh_buffer)
+{
+	int v;
+
+	zexpect_true(rb_is_empty(), "The buffer is expected to be empty");
+	zassert_equal(rb_pop(&v), -ENODATA, "A pop on a fresh buffer must return -ENODATA");
+}
+
 
 ZTEST(ring_buf_boundaries, test_is_full_after_fill)
 {
